@@ -55,6 +55,7 @@ int phxInFF(Computer* comp, int port) {
 }
 
 static xPort phxPortMap[] = {
+	{0x00ff,0x001f,0,2,2,xIn1F,	NULL},		// joystick
 	{0x0007,0x00fe,2,2,2,xInFE,	xOutFE},	// FE
 	{0xc007,0x1ffd,2,2,2,NULL,	phxOut1FFD},	// mem control
 	{0xc007,0x7ffd,2,2,2,NULL,	phxOut7FFD},
