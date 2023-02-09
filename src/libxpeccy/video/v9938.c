@@ -1,5 +1,6 @@
 #include "video.h"
 #include "vidcommon.h"
+#include "LOG/LOG.h"
 
 #include <stdio.h>
 #include <string.h>

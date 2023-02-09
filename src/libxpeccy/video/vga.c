@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "vga.h"
+#include "LOG/LOG.h"
 
 //#define CGA_MODE 0
 #define USE_VGA 1

@@ -1,5 +1,6 @@
 #include <string.h>
 #include "filetypes.h"
+#include "../../LOG/LOG.h"
 
 void cutSpaces(char* name) {
 	for (int i = 7; i > 0; i--) {		// cut last spaces from 8-char name

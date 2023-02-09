@@ -1,4 +1,5 @@
 #include "hardware.h"
+#include "LOG/LOG.h"
 
 #include <stdio.h>
 #include <string.h>
