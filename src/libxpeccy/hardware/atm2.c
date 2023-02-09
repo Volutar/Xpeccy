@@ -210,6 +210,7 @@ int atm2InFF(Computer* comp, int port) {
 }
 
 static xPort atm2PortMap[] = {
+	{0x00ff,0x001f,0,2,2,xIn1F,	NULL},		// joystick
 	{0x0007,0x00fe,2,2,2,atm2inFE,	atm2OutFE},
 	{0x0007,0x00fa,2,2,2,NULL,	NULL},		// fa
 //	{0x0007,0x00fb,2,2,2,NULL,	atm2OutFB},	// fb (covox)

@@ -68,6 +68,7 @@ void p2Out7FFD(Computer* comp, int port, int val) {
 }
 
 static xPort p2PortMap[] = {
+	{0x00ff,0x001f,0,2,2,xIn1F,	NULL},		// joystick
 	{0x0003,0x00fe,2,2,2,xInFE,	xOutFE},
 	{0xc002,0x7ffd,2,2,2,NULL,	p2Out7FFD},
 	{0xf002,0x1ffd,2,2,2,NULL,	p2Out1FFD},
