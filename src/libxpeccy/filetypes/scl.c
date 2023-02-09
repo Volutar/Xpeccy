@@ -52,6 +52,7 @@ int loadSCL(Computer* comp, const char* name, int drv) {
 		buf[0x8e3] = 0x16;			// 80DS
 		buf[0x8e4] = hd.files;			// files total
 		tmpa = 0x9f0 - scnt;			// sectors free (0x9f0)	// FIXED: not 0xa00!
+		if (tmpa < 0) tmpa = 0x20 - (scnt & 0x1f);
 		buf[0x8e5] = (tmpa & 0xff);
 		buf[0x8e6] = ((tmpa & 0xff00) >> 8);
 		buf[0x8e7] = 0x10;			// trdos code
@@ -59,13 +60,13 @@ int loadSCL(Computer* comp, const char* name, int drv) {
 		memset(buf + 0x8f5, 0x20, 8);		// disk label
 		flp_format_trk(flp, 0, 16, 256, (char*)buf);
 		i = 1;
-		while (!feof(file) && (i < 160)) {
+		while (!feof(file) && (i < 254)) {
 			fread((char*)buf, 0x1000, 1, file);
 			flp_format_trk(flp, i, 16, 256, (char*)buf);
 			i++;
 		}
 		memset(buf, 0, 0x1000);
-		while (i < 160) {
+		while (i < 254) {
 			flp_format_trk(flp, i, 16, 256, (char*)buf);
 			i++;
 		}
@@ -78,7 +79,7 @@ int loadSCL(Computer* comp, const char* name, int drv) {
 int saveSCL(Computer* comp, const char* name, int drv) {
 	Floppy* flp = comp->dif->fdc->flop[drv & 3];
 	const char* sign = "SINCLAIR";
-	unsigned char img[0xA0000];
+	unsigned char img[0xFE000];
 	unsigned char buf[256];
 	unsigned char* dptr;
 	unsigned char* bptr;
