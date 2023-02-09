@@ -11,7 +11,7 @@
 #else
 #define SCRBUF_SIZE	3700*2050*4
 #endif
-#define DRAWING_F	1
+#define DRAWING_F	0
 
 int bytesPerLine = 768;
 int greyScale = 0;
@@ -57,13 +57,12 @@ int vid_visible(Video* vid) {
 static int32_t outcol;
 
 inline void vid_dot_full(Video* vid, unsigned char idx) {
-	if (vid->hvis && vid->vvis) {
+//	if (vid->hvis && vid->vvis) {
 		outcol = greyScale ? vid->gpal[idx] : vid->pal[idx];
 #ifdef USEOPENGL
 		*(int32_t*)(vid->ray.ptr) = outcol;
-		vid->ray.ptr += 4;
-		*(int32_t*)(vid->ray.ptr) = outcol;
-		vid->ray.ptr += 4;
+		*((int32_t*)(vid->ray.ptr)+1) = outcol;
+		vid->ray.ptr += 8;
 #else
 		xpos += xstep;
 		while (xpos > 0xff) {
@@ -72,11 +71,11 @@ inline void vid_dot_full(Video* vid, unsigned char idx) {
 			vid->ray.ptr += 4;
 		}
 #endif
-	}
+//	}
 }
 
 inline void vid_dot_half(Video* vid, unsigned char idx) {
-	if (vid->hvis && vid->vvis) {
+//	if (vid->hvis && vid->vvis) {
 		outcol = greyScale ? vid->gpal[idx] : vid->pal[idx];
 #ifdef USEOPENGL
 		*(int32_t*)(vid->ray.ptr) = outcol;
@@ -89,7 +88,7 @@ inline void vid_dot_half(Video* vid, unsigned char idx) {
 			vid->ray.ptr += 4;
 		}
 #endif
-	}
+//	}
 }
 
 static int blkcol = 0xff000000;
@@ -936,12 +935,14 @@ void vid_tick(Video* vid) {
 	if (vid->cbDot)
 		vid->cbDot(vid);
 #else
-	// if ray is on visible screen & video has drawing callback...
-	if ((vid->ray.y >= vid->lcut.y) && (vid->ray.y < vid->rcut.y) \
-		&& (vid->ray.x >= vid->lcut.x) && (vid->ray.x < vid->rcut.x) \
-		&& vid->cbDot) {
+/*	// if ray is on visible screen & video has drawing callback...
+	if (vid->cbDot && (vid->ray.y >= vid->lcut.y) && (vid->ray.y < vid->rcut.y)	&&
+		(vid->ray.x >= vid->lcut.x) && (vid->ray.x < vid->rcut.x)) {
 			vid->cbDot(vid);		// put dot callback
 	}
+*/
+	if (vid->vvis && (vid->ray.x >= vid->lcut.x) && (vid->ray.x < vid->rcut.x) && vid->cbDot)
+			vid->cbDot(vid);		// put dot callback
 #endif
 	// if debug, fill all line
 	if (vid->debug)
