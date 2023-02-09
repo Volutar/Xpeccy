@@ -33,6 +33,7 @@ void p3_dos_wr(Computer* comp, int port, int val) {
 }
 
 static xPort p3PortMap[] = {
+	{0x00ff,0x001f,0,2,2,xIn1F,	NULL},		// joystick
 	{0xc002,0x7ffd,2,2,2,NULL,	p3Out7FFD},
 	{0xc002,0xbffd,2,2,2,NULL,	xOutBFFD},
 	{0xc002,0xfffd,2,2,2,xInFFFD,	xOutFFFD},
