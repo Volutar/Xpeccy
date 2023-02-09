@@ -1,5 +1,14 @@
 #include "emulwin.h"
 #include "filer.h"
+#include "version.h"
+
+#define STR_EXPAND(tok) #tok
+#define	STR(tok) STR_EXPAND(tok)
+#ifdef USEOPENGL
+#define	XPTITLE	STR(Xpeccy VERSION (OpenGL))
+#else
+#define	XPTITLE	STR(Xpeccy VERSION)
+#endif
 
 // socket
 
@@ -30,7 +39,8 @@ void MainWin::closeServer() {
 void MainWin::connected() {
 	QTcpSocket* sock = srv.nextPendingConnection();
 	clients.append(sock);
-	sock->write("Who's there?\n> ");
+//	sock->write("Who's there?\n> ");
+	sock->write("hello, it's Xpeccy " STR(VERSION) "\n> ");
 	connect(sock,SIGNAL(destroyed()),this,SLOT(disconnected()));
 	connect(sock,SIGNAL(readyRead()),this,SLOT(socketRead()));
 }
@@ -45,6 +55,7 @@ void MainWin::disconnected() {
 static char dasmbuf[256];
 extern int dasmrd(int adr, void* ptr);
 extern int str_to_adr(Computer* comp, QString str);
+extern void dasmwr(Computer* comp, int adr, int bt);
 
 void MainWin::socketRead() {
 	QTcpSocket* sock = (QTcpSocket*)sender();
@@ -180,11 +191,28 @@ void MainWin::socketRead() {
 				sock->write("\r\n");
 			}
 		}
+	} else if (com.startsWith("dumpraw ")) {
+		int adr=0, size=8;
+		if (!prm[1].isEmpty()) adr = str_to_adr(comp, prm[1]);
+		if (!prm[2].isEmpty()) size = str_to_adr(comp, prm[2]);
+//		LOG_Misc("Dump: %i %i\n", adr, size);
+		if (size>0x10000) size=0x10000;
+		for(int i = adr; i < adr + size; i++)
+		{
+			dasmbuf[0] = 0x00;
+			sprintf(dasmbuf,"%.2X",dasmrd(comp->cpu->cs.base + i,comp));
+			sock->write(dasmbuf);
+		}
+		sock->write("\r\n");
+	} else if (com == "exit" || com == "\x03") {
+		sock->abort();
+		return;
 	} else {
-		sock->write("Unrecognized command\r\n");
+		if (com.size()>0) sock->write("Unrecognized command\r\n");
 	}
 	if (com != "quit")
 		sock->write("> ");
+	prm.clear();
 }
 
 #else
