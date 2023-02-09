@@ -13,13 +13,13 @@ class xTapeCatModel : public QAbstractTableModel {
 		int rowCount(const QModelIndex& = QModelIndex()) const;
 		int columnCount(const QModelIndex& = QModelIndex()) const;
 		void update();
+		QModelIndex index(int row, int col, const QModelIndex &parent = QModelIndex()) const;
 	private:
 		int rcnt;
 		int rcur;
 		TapeBlockInfo* inf;
 		QVariant data(const QModelIndex&, int) const;
 		QVariant headerData(int, Qt::Orientation, int) const;
-		QModelIndex index(int row, int col, const QModelIndex &parent = QModelIndex()) const;
 };
 
 class xTapeCatTable : public QTableView {
@@ -27,6 +27,6 @@ class xTapeCatTable : public QTableView {
 	public:
 		xTapeCatTable(QWidget* = NULL);
 		void fill(Tape*);
-	private:
 		xTapeCatModel* model;
+	private:
 };

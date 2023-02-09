@@ -36,6 +36,7 @@ void TapeWin::updProgress(Tape* tape) {
 }
 
 void TapeWin::upd(Tape* tape) {
+	static int oldblock = -1;
 	if (isVisible()) {
 		if (tape->blkCount > 0) {
 			ui.playBut->setEnabled(!tape->on);
@@ -44,12 +45,18 @@ void TapeWin::upd(Tape* tape) {
 			ui.tapeList->setEnabled(true);
 			ui.tbRewind->setEnabled(!tape->on);
 			ui.tapeList->fill(tape);
+			if (tape->block != oldblock) {
+				oldblock = tape->block;
+				QModelIndex cur = ui.tapeList->model->index(oldblock, 0);
+				ui.tapeList->scrollTo(cur);
+			}
 		} else {
 			ui.playBut->setEnabled(false);
 			ui.recBut->setEnabled(false);
 			ui.stopBut->setEnabled(false);
 			ui.tapeList->setEnabled(false);
 			ui.tbRewind->setEnabled(false);
+			oldblock = -1;
 		}
 	}
 }
