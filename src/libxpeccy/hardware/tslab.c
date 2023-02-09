@@ -426,12 +426,12 @@ void tsOut27AF(Computer* comp, int port, int val) {
 			// comp->brk = 1;
 			break;
 	}
-	comp->dma.src.x = ((sadr & 0x3fc000) >> 14);
-	comp->dma.src.h = ((sadr & 0x3f00) >> 8);
-	comp->dma.src.l = sadr & 0xff;
-	comp->dma.dst.x = ((dadr & 0x3fc000) >> 14);
-	comp->dma.dst.h = ((dadr & 0x3f00) >> 8);
-	comp->dma.dst.l = dadr & 0xff;
+	comp->dma.src.x = ((sadr >> 14) & 0xff);
+	comp->dma.src.h = ((sadr >> 8) & 0x3f);
+	comp->dma.src.l = sadr & 0xfe;
+	comp->dma.dst.x = ((dadr >> 14) & 0xff);
+	comp->dma.dst.h = ((dadr >> 8) & 0x3f);
+	comp->dma.dst.l = dadr & 0xfe;
 	if (comp->vid->inten & 4)
 		comp->vid->intDMA = 1;
 }
