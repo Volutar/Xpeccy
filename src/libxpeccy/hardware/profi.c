@@ -163,6 +163,7 @@ int prfIn(Computer* comp, int port) {
 
 void prfReset(Computer* comp) {
 	kbd_set_type(comp->keyb, KBD_PROFI);
+	prfOutDFFD(comp, 0, 0);
 }
 
 void prf_keyp(Computer* comp, keyEntry* ent) {
