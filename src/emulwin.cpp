@@ -20,6 +20,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include "LOG/LOG.h"
 #include "xcore/xcore.h"
 #include "xcore/sound.h"
 #include "emulwin.h"
@@ -219,8 +220,13 @@ MainWin::MainWin() {
 	frmt.setDoubleBuffer(false);
 	cont = new QGLContext(frmt);
 	setContext(cont);
+	printf("QGL OpenGL version: %i.%i\n",cont->format().majorVersion(),cont->format().minorVersion());
 	setAutoBufferSwap(true);
 	makeCurrent();
+	printf("OpenGL Info: VENDOR:       %s\n",(const char*)glGetString(GL_VENDOR));
+	printf("             RENDERER:     %s\n",(const char*)glGetString(GL_RENDERER));
+	printf("             VERSION:      %s\n",(const char*)glGetString(GL_VERSION));
+	printf("             GLSL VERSION: %s\n",(const char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
 	curtex = 0;
 	shd_support = QGLShader::hasOpenGLShaders(QGLShader::Vertex) && QGLShader::hasOpenGLShaders(QGLShader::Fragment);
 	qDebug() << "vtx_shd";

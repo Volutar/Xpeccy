@@ -11,6 +11,7 @@
 
 #include "xcore.h"
 #include "gamepad.h"
+#include "LOG/LOG.h"
 
 typedef struct {
 	char ch;
@@ -451,10 +452,12 @@ void xGamepad::timerEvent(QTimerEvent* e) {
 				// TODO: select device, if there is more than one
 				case SDL_JOYDEVICEREMOVED:
 					if (ev.jdevice.which == id) {	// current removed, close it
+						LOG_OutputMisc("/Joy removed: %i",id);
 						close();
 					}
 					break;
 				case SDL_JOYDEVICEADDED:
+					LOG_OutputMisc("/Joy added: %s",SDL_JoystickNameForIndex(id));
 					// Nothing to do, let user to select new gamepad in options
 					//if (id < 0) {			// if no gamepad opened, try to open last one by name
 					//	open();			// conf.joy.curName);
@@ -498,13 +501,18 @@ void xGamepad::timerEvent(QTimerEvent* e) {
 			if (lasthat & SDL_HAT_RIGHT) emit buttonChanged(15 + n * 4, !!(state & SDL_HAT_RIGHT));
 			lasthat = state;
 		}
+		SDL_JoystickUpdate();
 		SDL_Event ev;
 		while (SDL_PollEvent(&ev)) {
 			switch (ev.type) {
 				case SDL_JOYDEVICEREMOVED:
 					if (ev.jdevice.which == id) {	// current removed, close it
+						LOG_OutputMisc("Joy removed: %i\n",id);
 						close();
 					}
+					break;
+				case SDL_JOYDEVICEADDED:
+					LOG_OutputMisc("Joy added: %s\n",SDL_JoystickNameForIndex(ev.jdevice.which));
 					break;
 			}
 		}
@@ -553,8 +561,10 @@ QStringList xGamepad::getList() {
 #endif
 		case GPBACKEND_SDL:
 			cnt = SDL_NumJoysticks();
+			LOG_OutputMisc("xGamepad::GetList - joy count: %i\n",cnt);
 			for(id = 0; id < cnt; id++) {
 				lst << SDL_JoystickNameForIndex(id);
+				LOG_OutputMisc("Joy: %s\n",SDL_JoystickNameForIndex(id));
 			}
 			break;
 	}

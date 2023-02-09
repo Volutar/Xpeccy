@@ -1,4 +1,5 @@
 #include "dbg_widgets.h"
+#include "../../LOG/LOG.h"
 
 xPitModel::xPitModel(QObject* p):xTableModel(p) {}
 

@@ -1,5 +1,6 @@
 #include "filetypes.h"
 #include "../cpu/Z80/z80.h"
+#include "../../LOG/LOG.h"
 
 #pragma pack (push, 1)
 

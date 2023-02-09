@@ -1,4 +1,5 @@
 #include <string.h>
+#include "LOG/LOG.h"
 
 #include "hardware.h"
 #include "../cpu/1801vm1/1801vm1.h"

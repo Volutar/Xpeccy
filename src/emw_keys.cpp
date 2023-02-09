@@ -6,6 +6,7 @@
 
 #include <QMenu>
 #include <QFileDialog>
+#include "LOG/LOG.h"
 
 void MainWin::kPress(QKeyEvent* ev) {
 	keyPressEvent(ev);
@@ -362,6 +363,7 @@ void MainWin::keyReleaseEvent(QKeyEvent *ev) {
 //		relskip = 0;
 //	} else {
 //		qDebug() << "keyReleaseEvent" << ev->text() << ev->nativeScanCode();
+//	printf("Key released %i\n",ev->key());
 		int keyid;
 		if (comp->debug) {
 			ev->ignore();

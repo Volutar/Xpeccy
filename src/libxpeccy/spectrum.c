@@ -5,6 +5,7 @@
 #include "spectrum.h"
 #include "filetypes/filetypes.h"
 #include "cpu/Z80/z80.h"
+#include "LOG/LOG.h"
 
 static int nsTime;
 static int res2;

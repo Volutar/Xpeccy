@@ -1,6 +1,7 @@
 #include "filer.h"
 #include "xcore/xcore.h"
 #include "xgui/xgui.h"
+#include "LOG/LOG.h"
 
 #include <QDebug>
 #include <QFileDialog>
