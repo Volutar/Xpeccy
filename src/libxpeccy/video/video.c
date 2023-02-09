@@ -5,6 +5,7 @@
 #include <assert.h>
 
 #include "video.h"
+#include "LOG/LOG.h"
 
 #if USEOPENGL
 #define SCRBUF_SIZE	2048*768*4

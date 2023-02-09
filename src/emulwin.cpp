@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include "LOG/LOG.h"
 #include "xcore/xcore.h"
 #include "xcore/sound.h"
 #include "emulwin.h"
@@ -207,14 +208,30 @@ MainWin::MainWin() {
 #ifdef USEOPENGL
 	frmt.setDoubleBuffer(false);
 	cont = new QGLContext(frmt);
+	printf("QGLContext created\n");
 	setContext(cont);
+	printf("QGL OpenGL version: %i.%i\n",cont->format().majorVersion(),cont->format().minorVersion());
 	setAutoBufferSwap(true);
-	makeCurrent();
+	cont->makeCurrent();
+	printf("Context made current\n");
+
+	printf("OpenGL Info: VENDOR:       %s\n",(const char*)glGetString(GL_VENDOR));
+	printf("             RENDERDER:    %s\n",(const char*)glGetString(GL_RENDERER));
+	printf("             VERSION:      %s\n",(const char*)glGetString(GL_VERSION));
+	printf("             GLSL VERSION: %s\n",(const char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
 	shd_support = QGLShader::hasOpenGLShaders(QGLShader::Vertex) && QGLShader::hasOpenGLShaders(QGLShader::Fragment);
 	curtex = 0;
-	vtx_shd = new QGLShader(QGLShader::Vertex, cont);
-	frg_shd = new QGLShader(QGLShader::Fragment, cont);
-	if (!shd_support) setMessage(" Shaders not supported ");
+	if (!shd_support) {
+		setMessage(" Shaders not supported ");
+		printf(" Shaders not supported\n");
+		vtx_shd = NULL;
+		frg_shd = NULL;
+	}
+	else {
+		vtx_shd = new QGLShader(QGLShader::Vertex, cont);
+		frg_shd = new QGLShader(QGLShader::Fragment, cont);
+		printf("QGLShaders created\n");
+	}
 #endif
 }
 
@@ -435,11 +452,15 @@ void MainWin::timerEvent(QTimerEvent* ev) {
 				case SDL_JOYDEVICEADDED:
 					if (ev.jdevice.which != 0) break;
 					if (conf.joy.joy) {
+						printf("Joystick closed\n");
 						SDL_JoystickClose(conf.joy.joy);
 						conf.joy.joy = NULL;
 					}
 					if (SDL_NumJoysticks() > 0) {
 						conf.joy.joy = SDL_JoystickOpen(0);
+						if (conf.joy.joy) {
+							printf("Joystick opened %s\n",SDL_JoystickNameForIndex(0));
+						}
 					}
 					emit s_gamepad_plug();
 					break;
@@ -712,11 +733,13 @@ void MainWin::loadShader() {
 			if (!vtx.isEmpty()) {
 				if (!vtx_shd->compileSourceCode(vtx)) {
 					qDebug() << vtx_shd->log();
+					printf("Vertex shader error: %s", vtx_shd->log().toStdString().c_str());
 				}
 			}
 			if (!frg.isEmpty()) {
 				if (!frg_shd->compileSourceCode(frg)) {
 					qDebug() << frg_shd->log();
+					printf("Fragment shader error: %s", frg_shd->log().toStdString().c_str());
 				}
 			}
 			if (vtx_shd->isCompiled() && frg_shd->isCompiled()) {
@@ -724,8 +747,10 @@ void MainWin::loadShader() {
 				prg.addShader(frg_shd);
 				prg.link();
 				setMessage(" Shader compiled ");
+				printf("Shader compiled: %s\n",conf.vid.shader.c_str());
 			} else {
 				setMessage(" Shader compile error ");
+				printf("Shader compile error %s\n",conf.vid.shader.c_str());
 				conf.vid.shader.clear();
 				loadShader();
 			}

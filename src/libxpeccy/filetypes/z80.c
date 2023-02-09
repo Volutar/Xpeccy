@@ -1,4 +1,5 @@
 #include "filetypes.h"
+#include "../../LOG/LOG.h"
 
 #pragma pack (push, 1)
 

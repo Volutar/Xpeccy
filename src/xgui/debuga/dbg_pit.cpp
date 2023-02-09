@@ -1,5 +1,6 @@
 #include "dbg_pit.h"
 #include "../../xcore/xcore.h"
+#include "../../LOG/LOG.h"
 
 xPitModel::xPitModel(QObject* p):QAbstractTableModel(p) {}
 

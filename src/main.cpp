@@ -19,6 +19,8 @@
 #include "xgui/options/setupwin.h"
 #include "filer.h"
 
+#include "LOG/LOG.h"
+
 #include <SDL.h>
 #undef main
 
@@ -64,6 +66,7 @@ bool xApp::event(QEvent* ev) {
 }
 
 int main(int ac,char** av) {
+	LOG_Init("Xpeccy.log");
 
 // NOTE:SDL_INIT_VIDEO must be here for SDL_Joystick event processing. Joystick doesn't works without video init
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK | SDL_INIT_TIMER);

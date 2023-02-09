@@ -4,6 +4,7 @@
 
 #include "spectrum.h"
 #include "filetypes/filetypes.h"
+#include "LOG/LOG.h"
 
 static int nsTime;
 static int res2;

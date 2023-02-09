@@ -1,5 +1,6 @@
 #include "hardware.h"
 #include "../filetypes/filetypes.h"
+#include "LOG/LOG.h"
 
 // debug
 
