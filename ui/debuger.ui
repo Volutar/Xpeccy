@@ -218,6 +218,9 @@
          <property name="selectionMode">
           <enum>QAbstractItemView::SingleSelection</enum>
          </property>
+         <property name="textElideMode">
+          <enum>Qt::ElideNone</enum>
+         </property>
          <property name="showGrid">
           <bool>false</bool>
          </property>
@@ -228,16 +231,16 @@
           <bool>false</bool>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>20</number>
+          <number>22</number>
          </attribute>
          <attribute name="verticalHeaderVisible">
           <bool>false</bool>
          </attribute>
          <attribute name="verticalHeaderMinimumSectionSize">
-          <number>17</number>
+          <number>16</number>
          </attribute>
          <attribute name="verticalHeaderDefaultSectionSize">
-          <number>20</number>
+          <number>17</number>
          </attribute>
         </widget>
        </item>
@@ -729,10 +732,10 @@
               <bool>false</bool>
              </attribute>
              <attribute name="verticalHeaderMinimumSectionSize">
-              <number>17</number>
+              <number>16</number>
              </attribute>
              <attribute name="verticalHeaderDefaultSectionSize">
-              <number>20</number>
+              <number>17</number>
              </attribute>
              <attribute name="verticalHeaderStretchLastSection">
               <bool>false</bool>
@@ -867,8 +870,11 @@
            <attribute name="verticalHeaderVisible">
             <bool>false</bool>
            </attribute>
+           <attribute name="verticalHeaderMinimumSectionSize">
+            <number>16</number>
+           </attribute>
            <attribute name="verticalHeaderDefaultSectionSize">
-            <number>21</number>
+            <number>17</number>
            </attribute>
           </widget>
          </item>
@@ -942,8 +948,11 @@
            <attribute name="verticalHeaderVisible">
             <bool>false</bool>
            </attribute>
+           <attribute name="verticalHeaderMinimumSectionSize">
+            <number>16</number>
+           </attribute>
            <attribute name="verticalHeaderDefaultSectionSize">
-            <number>21</number>
+            <number>17</number>
            </attribute>
           </widget>
          </item>
@@ -971,8 +980,11 @@
            <attribute name="horizontalHeaderDefaultSectionSize">
             <number>40</number>
            </attribute>
+           <attribute name="verticalHeaderMinimumSectionSize">
+            <number>16</number>
+           </attribute>
            <attribute name="verticalHeaderDefaultSectionSize">
-            <number>21</number>
+            <number>17</number>
            </attribute>
           </widget>
          </item>
