@@ -155,6 +155,7 @@ int prfIn(Computer* comp, int port) {
 
 void prfReset(Computer* comp) {
 	kbdSetMode(comp->keyb, KBD_SPECTRUM);
+	prfOutDFFD(comp, 0, 0);
 }
 
 void prf_keyp(Computer* comp, keyEntry ent) {
