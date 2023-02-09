@@ -996,7 +996,13 @@ void xDisasmTable::keyPressEvent(QKeyEvent* ev) {
 			break;
 		case XCUT_SETBRK:
 			adr = getData(idx.row(), 0, Qt::UserRole).toInt();	// bus addr
+#ifndef __WIN32__
 			if (mod & Qt::ShiftModifier) {
+#else
+			if ((mod & Qt::ShiftModifier) &&
+				!(mod & Qt::ControlModifier) &&
+				!(mod & Qt::AltModifier)) {
+#endif
 				bpr = BRK_CPUADR;
 				bpt = 0;
 			} else {
