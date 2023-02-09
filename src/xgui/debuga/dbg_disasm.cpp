@@ -970,7 +970,13 @@ void xDisasmTable::keyPressEvent(QKeyEvent* ev) {
 			break;
 		case XCUT_SETBRK:
 			adr = getData(idx.row(), 0, Qt::UserRole).toInt();	// bus addr
+#ifndef __WIN32__
 			if (ev->modifiers() & Qt::ShiftModifier) {
+#else
+			if ((ev->modifiers() & Qt::ShiftModifier) &&
+				!(ev->modifiers() & Qt::ControlModifier) &&
+				!(ev->modifiers() & Qt::AltModifier)) {
+#endif
 				bpr = BRK_CPUADR;
 				bpt = 0;
 			} else {
@@ -990,7 +996,13 @@ void xDisasmTable::keyPressEvent(QKeyEvent* ev) {
 				// adr = xadr.abs;
 			}
 			// modifiers doesn't work with new hotkeys (hotkey not detected)
+#ifndef __WIN32__
 			if (ev->modifiers() & Qt::AltModifier) {
+#else
+			if ((ev->modifiers() & Qt::AltModifier) ||
+				((ev->modifiers() & Qt::ControlModifier) &&
+				 (ev->modifiers() & Qt::ShiftModifier))) {
+#endif
 				bpt |= MEM_BRK_RD;
 			} else if (ev->modifiers() & Qt::ControlModifier) {
 				bpt |= MEM_BRK_WR;
