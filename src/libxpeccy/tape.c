@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "LOG/LOG.h"
 
 #include "tape.h"
 
@@ -273,9 +274,9 @@ void tapStoreBlock(Tape* tap) {
 		siglens[3] = (siglens[3] > 350) ? SIGN0LEN : SIGN1LEN;
 		cnt++;
 	}
-	printf("size: %i\t",cnt);
-	for (i=0; i<cnt;i++) printf("\t%i",siglens[i]);
-	printf("\n");
+//	printf("size: %i\t",cnt);
+//	for (i=0; i<cnt;i++) printf("\t%i",siglens[i]);
+//	printf("\n");
 
 	tblk->breakPoint = 0;
 	tblk->hasBytes = 0;

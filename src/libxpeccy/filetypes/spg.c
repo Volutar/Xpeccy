@@ -1,5 +1,6 @@
 #include "filetypes.h"
 #include "unpackers/unpackers.h"
+#include "../../LOG/LOG.h"
 
 #include <stdio.h>
 
