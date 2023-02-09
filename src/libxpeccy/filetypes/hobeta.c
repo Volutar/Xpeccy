@@ -1,5 +1,6 @@
 #include "filetypes.h"
 #include <string.h>
+#include "../../LOG/LOG.h"
 // #include <numeric>
 
 int stdAccumulate(unsigned char* ptr, int size, int res) {

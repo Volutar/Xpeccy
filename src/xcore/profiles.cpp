@@ -11,6 +11,7 @@
 #include "sound.h"
 #include "filer.h"
 #include "gamepad.h"
+#include "../LOG/LOG.h"
 
 void prf_load_cmos(xProfile* prf, std::string path) {
 	FILE* file = fopen(path.c_str(), "rb");

@@ -19,6 +19,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include "LOG/LOG.h"
 #include "xcore/xcore.h"
 #include "xcore/sound.h"
 #include "emulwin.h"
@@ -193,8 +194,11 @@ MainWin::MainWin() {
 		conf.joy.joy = NULL;
 	}
 	initFileDialog(this);
+	printf("Init File Dialog\n");
 	initUserMenu();
+	printf("Init Menu\n");
 	setFocus();
+	printf("Focus window\n");
 
 	frm_ns = 0;
 	timid = startTimer(20);		// 1/50 sec
@@ -210,12 +214,14 @@ MainWin::MainWin() {
 	connect(userMenu,SIGNAL(aboutToShow()),SLOT(menuShow()));
 	connect(userMenu,SIGNAL(aboutToHide()),SLOT(menuHide()));
 	fillUserMenu();
+	printf("Filled Menu\n");
 
 #ifdef USENETWORK
 	openServer();
 	connect(&srv, SIGNAL(newConnection()),this, SLOT(connected()));
 #endif
 
+	printf("Network opened\n");
 	qDebug() << "end:constructor";
 }
 
@@ -437,11 +443,15 @@ void MainWin::timerEvent(QTimerEvent* ev) {
 				case SDL_JOYDEVICEADDED:
 					if (ev.jdevice.which != 0) break;
 					if (conf.joy.joy) {
+						printf("Joystick closed\n");
 						SDL_JoystickClose(conf.joy.joy);
 						conf.joy.joy = NULL;
 					}
 					if (SDL_NumJoysticks() > 0) {
 						conf.joy.joy = SDL_JoystickOpen(0);
+						if (conf.joy.joy) {
+							printf("Joystick opened %s\n",SDL_JoystickNameForIndex(0));
+						}
 					}
 					emit s_gamepad_plug();
 					break;
