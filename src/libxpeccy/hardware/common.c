@@ -1,6 +1,7 @@
 #include "hardware.h"
 #include "../filetypes/filetypes.h"
 #include "../cpu/Z80/z80.h"
+#include "LOG/LOG.h"
 
 int compflags = 0;
 

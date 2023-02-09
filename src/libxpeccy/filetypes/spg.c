@@ -1,6 +1,7 @@
 #include "filetypes.h"
 #include "unpackers/unpackers.h"
 #include "../cpu/Z80/z80.h"
+#include "../../LOG/LOG.h"
 
 #include <stdio.h>
 

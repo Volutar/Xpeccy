@@ -5,6 +5,7 @@
 
 #include "sound.h"
 #include "xcore.h"
+#include "../LOG/LOG.h"
 
 #include <iostream>
 #include <QMutex>

@@ -11,6 +11,7 @@
 
 #include "xcore.h"
 #include "gamepad.h"
+#include "LOG/LOG.h"
 
 #define VIRTKEYBASE 12
 
@@ -433,9 +434,11 @@ void xGamepad::update() {
 #if HAVESDL2
 					// TODO: select device, if there is more than one
 				case SDL_JOYDEVICEREMOVED:
+					LOG_OutputMisc("Joy removed: %i\n",id);
 					emit deviceRemoved(ev.jdevice.which);
 					break;
 				case SDL_JOYDEVICEADDED:
+					LOG_OutputMisc("Joy added: %s\n",SDL_JoystickNameForIndex(ev.jdevice.which));
 					emit deviceAdded(QString(SDL_JoystickNameForIndex(ev.jdevice.which)));
 					break;
 #endif
@@ -506,8 +509,10 @@ QStringList xGamepad::getList() {
 	QStringList lst;
 	int id, cnt;
 	cnt = SDL_NumJoysticks();
+	LOG_OutputMisc("xGamepad::GetList - joy count: %i\n",cnt);
 	for(id = 0; id < cnt; id++) {
 		lst << SDL_JoystickNameForIndex(id);
+		LOG_OutputMisc("Joy: %s\n",SDL_JoystickNameForIndex(id));
 	}
 	return lst;
 }

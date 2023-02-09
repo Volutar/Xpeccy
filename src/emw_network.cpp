@@ -9,6 +9,7 @@
 #else
 #define	XPTITLE	STR(Xpeccy VERSION)
 #endif
+#include "LOG/LOG.h"
 
 // socket
 
@@ -20,7 +21,8 @@ void MainWin::openServer() {
 		i++;
 	}
 	if (!srv.isListening()) {
-		shitHappens("Listen server can't start");
+//		shitHappens("Listen server can't start");
+		printf("ERROR: Listening cannot start at port %i\n",conf.port);
 	} else {
 		printf("Listening port %i\n", (conf.port + i) & 0xffff);
 	}

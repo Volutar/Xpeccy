@@ -3,6 +3,7 @@
 #include <QRegularExpression>
 #include <algorithm>
 #include <vector>
+#include "LOG/LOG.h"
 
 #if defined(USEOPENGL) && !BLOCKGL
 
@@ -178,10 +179,23 @@ void MainWin::initializeGL() {
 	initializeOpenGLFunctions();
 	conf.vid.shd_support = QOpenGLShader::hasOpenGLShaders(QOpenGLShader::Vertex) && QOpenGLShader::hasOpenGLShaders(QOpenGLShader::Fragment);
 	curtex = 0;
-	qDebug() << "vtx_shd";
-	vtx_shd = new QOpenGLShader(QOpenGLShader::Vertex);
-	qDebug() << "frg_shd";
-	frg_shd = new QOpenGLShader(QOpenGLShader::Fragment);
+	printf("OpenGL Info: VENDOR:       %s\n",(const char*)glGetString(GL_VENDOR));
+	printf("             RENDERER:     %s\n",(const char*)glGetString(GL_RENDERER));
+	printf("             VERSION:      %s\n",(const char*)glGetString(GL_VERSION));
+	printf("             GLSL VERSION: %s\n",(const char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
+	if (!conf.vid.shd_support) {
+		setMessage(" OpenGLShaders not supported ");
+		printf(" OpenGLShaders not supported\n");
+		vtx_shd = NULL;
+		frg_shd = NULL;
+	}
+	else {
+		qDebug() << "vtx_shd";
+		vtx_shd = new QOpenGLShader(QOpenGLShader::Vertex);
+		qDebug() << "frg_shd";
+		frg_shd = new QOpenGLShader(QOpenGLShader::Fragment);
+		printf("QOpenGLShaders created\n");
+	}
 #else
 //	QGLFormat frmt;
 //	frmt.setDoubleBuffer(false);
@@ -297,15 +311,24 @@ void MainWin::loadShader() {
 
 	prg.removeAllShaders();
 	const bool vtx_ok = vtx_shd->compileSourceCode(vtx);
-	if (!vtx_ok) qDebug() << "vertex shader:" << vtx_shd->log();
+	if (!vtx_ok) {
+		qDebug() << "vertex shader:" << vtx_shd->log();
+		printf("Vertex shader error: %s", vtx_shd->log().toStdString().c_str());
+	}
 	const bool frg_ok = frg_shd->compileSourceCode(frg);
-	if (!frg_ok) qDebug() << "fragment shader:" << frg_shd->log();
+	if (!frg_ok) {
+		qDebug() << "fragment shader:" << frg_shd->log();
+		printf("Fragment shader error: %s", frg_shd->log().toStdString().c_str());
+	}
 
 	if (vtx_ok && frg_ok) {
 		prg.addShader(vtx_shd);
 		prg.addShader(frg_shd);
 		if (prg.link()) {
-			if (user_shader) setMessage(" Shader compiled ");
+			if (user_shader) {
+				setMessage(" Shader compiled ");
+				printf("Shader compiled: %s\n",conf.vid.shader.c_str());
+			}
 			return;
 		}
 		qDebug() << "program link:" << prg.log();
@@ -313,10 +336,12 @@ void MainWin::loadShader() {
 
 	if (user_shader) {
 		setMessage(" Shader compile error ");
+		printf("Shader compile error %s\n",conf.vid.shader.c_str());
 		conf.vid.shader.clear();
 		loadShader();
 	} else {
 		qDebug() << "FATAL: default shader failed to compile/link";
+		printf("FATAL: default shader compile error\n");
 	}
 #endif
 }

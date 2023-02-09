@@ -1,4 +1,5 @@
 #include <string.h>
+#include "LOG/LOG.h"
 
 #include "hardware.h"
 #include "../video/vga.h"

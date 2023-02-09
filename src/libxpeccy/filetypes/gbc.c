@@ -1,4 +1,5 @@
 #include "filetypes.h"
+#include "../../LOG/LOG.h"
 
 int loadGB(Computer* comp, const char* name, int drv) {
 	int res = loadSlot(comp, name, drv);
