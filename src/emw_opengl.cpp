@@ -17,12 +17,26 @@ void MainWin::initializeGL() {
 	frmt.setProfile(QSurfaceFormat::CoreProfile);
 	QSurfaceFormat::setDefaultFormat(frmt);
 	// setFormat(frmt);
+	printf("QGL OpenGL version: %i.%i\n",context()->format().majorVersion(),context()->format().minorVersion());
 	conf.vid.shd_support = QOpenGLShader::hasOpenGLShaders(QOpenGLShader::Vertex) && QOpenGLShader::hasOpenGLShaders(QOpenGLShader::Fragment);
 	curtex = 0;
-	qDebug() << "vtx_shd";
-	vtx_shd = new QOpenGLShader(QOpenGLShader::Vertex);
-	qDebug() << "frg_shd";
-	frg_shd = new QOpenGLShader(QOpenGLShader::Fragment);
+	printf("OpenGL Info: VENDOR:       %s\n",(const char*)glGetString(GL_VENDOR));
+	printf("             RENDERER:     %s\n",(const char*)glGetString(GL_RENDERER));
+	printf("             VERSION:      %s\n",(const char*)glGetString(GL_VERSION));
+	printf("             GLSL VERSION: %s\n",(const char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
+	if (!conf.vid.shd_support) {
+		setMessage(" OpenGLShaders not supported ");
+		printf(" OpenGLShaders not supported\n");
+		vtx_shd = NULL;
+		frg_shd = NULL;
+	}
+	else {
+		qDebug() << "vtx_shd";
+		vtx_shd = new QOpenGLShader(QOpenGLShader::Vertex);
+		qDebug() << "frg_shd";
+		frg_shd = new QOpenGLShader(QOpenGLShader::Fragment);
+		printf("QOpenGLShaders created\n");
+	}
 #else
 //	QGLFormat frmt;
 //	frmt.setDoubleBuffer(false);
@@ -31,7 +45,7 @@ void MainWin::initializeGL() {
 //	setAutoBufferSwap(true);
 //	makeCurrent();
 //	curtex = 0;
-//	conf.vid.shd_support = QGLShader::hasOpenGLShaders(QGLShader::Vertex) && QGLShader::hasOpenGLShaders(QGLShader::Fragment);
+//	shd_support = QGLShader::hasOpenGLShaders(QGLShader::Vertex) && QGLShader::hasOpenGLShaders(QGLShader::Fragment);
 //	qDebug() << "vtx_shd";
 //	vtx_shd = new QGLShader(QGLShader::Vertex, cont);
 //	qDebug() << "frg_shd";
@@ -95,11 +109,13 @@ void MainWin::loadShader() {
 			if (!vtx.isEmpty()) {
 				if (!vtx_shd->compileSourceCode(vtx)) {
 					qDebug() << vtx_shd->log();
+					printf("Vertex shader error: %s", vtx_shd->log().toStdString().c_str());
 				}
 			}
 			if (!frg.isEmpty()) {
 				if (!frg_shd->compileSourceCode(frg)) {
 					qDebug() << frg_shd->log();
+					printf("Fragment shader error: %s", frg_shd->log().toStdString().c_str());
 				}
 			}
 			if (vtx_shd->isCompiled() && frg_shd->isCompiled()) {
@@ -107,8 +123,10 @@ void MainWin::loadShader() {
 				prg.addShader(frg_shd);
 				prg.link();
 				setMessage(" Shader compiled ");
+				printf("Shader compiled: %s\n",conf.vid.shader.c_str());
 			} else {
 				setMessage(" Shader compile error ");
+				printf("Shader compile error %s\n",conf.vid.shader.c_str());
 				conf.vid.shader.clear();
 				loadShader();
 			}

@@ -20,6 +20,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include "LOG/LOG.h"
 #include "xcore/xcore.h"
 #include "xcore/sound.h"
 #include "emulwin.h"
@@ -197,8 +198,11 @@ MainWin::MainWin() {
 	connect(conf.joy.gpad, &xGamepad::axisChanged, this, &MainWin::gpAxisChanged);
 
 	initFileDialog(this);
+	printf("Init File Dialog\n");
 	initUserMenu();
+	printf("Init Menu\n");
 	setFocus();
+	printf("Focus window\n");
 
 	frm_ns = 0;
 	timid = startTimer(20);		// 1/50 sec
@@ -214,6 +218,7 @@ MainWin::MainWin() {
 	connect(userMenu,SIGNAL(aboutToShow()),SLOT(menuShow()));
 	connect(userMenu,SIGNAL(aboutToHide()),SLOT(menuHide()));
 	fillUserMenu();
+	printf("Filled Menu\n");
 
 #ifdef USENETWORK
 	openServer();
@@ -226,16 +231,21 @@ MainWin::MainWin() {
 	frmt.setDoubleBuffer(false);
 	cont = new QGLContext(frmt);
 	setContext(cont);
+	printf("QGL OpenGL version: %i.%i\n",cont->format().majorVersion(),cont->format().minorVersion());
 	setAutoBufferSwap(true);
 	makeCurrent();
+	printf("OpenGL Info: VENDOR:       %s\n",(const char*)glGetString(GL_VENDOR));
+	printf("             RENDERER:     %s\n",(const char*)glGetString(GL_RENDERER));
+	printf("             VERSION:      %s\n",(const char*)glGetString(GL_VERSION));
+	printf("             GLSL VERSION: %s\n",(const char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
 	curtex = 0;
 	shd_support = QGLShader::hasOpenGLShaders(QGLShader::Vertex) && QGLShader::hasOpenGLShaders(QGLShader::Fragment);
 	qDebug() << "vtx_shd";
-	vtx_shd = new QGLShader(QGLShader::Vertex, cont);
+	vtx_shd = new QGLShader(QGLShader::Vertex, cont);		// ERROR: create QOpenGLFunctions with non-current context
 	qDebug() << "frg_shd";
 	frg_shd = new QGLShader(QGLShader::Fragment, cont);
 #endif
-
+	printf("Network opened\n");
 	qDebug() << "end:constructor";
 }
 
@@ -508,11 +518,15 @@ void MainWin::timerEvent(QTimerEvent* ev) {
 				case SDL_JOYDEVICEADDED:
 					if (ev.jdevice.which != 0) break;
 					if (conf.joy.joy) {
+						printf("Joystick closed\n");
 						SDL_JoystickClose(conf.joy.joy);
 						conf.joy.joy = NULL;
 					}
 					if (SDL_NumJoysticks() > 0) {
 						conf.joy.joy = SDL_JoystickOpen(0);
+						if (conf.joy.joy) {
+							printf("Joystick opened %s\n",SDL_JoystickNameForIndex(0));
+						}
 					}
 					emit s_gamepad_plug();
 					break;

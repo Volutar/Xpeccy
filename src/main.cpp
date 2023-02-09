@@ -19,6 +19,8 @@
 #include "xgui/options/setupwin.h"
 #include "filer.h"
 
+#include "LOG/LOG.h"
+
 #include <SDL.h>
 #undef main
 
@@ -77,6 +79,7 @@ bool xApp::event(QEvent* ev) {
 }
 
 int main(int ac,char** av) {
+	LOG_Init();
 	tClock = clock();
 // NOTE:SDL_INIT_VIDEO must be here for SDL_Joystick event processing. Joystick doesn't works without video init
 #if USE_QT_GAMEPAD && 0

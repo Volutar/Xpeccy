@@ -1,4 +1,5 @@
 #include "filetypes.h"
+#include "../../LOG/LOG.h"
 
 void detectType(xCartridge* slot) {
 	int test, radr, adr;
