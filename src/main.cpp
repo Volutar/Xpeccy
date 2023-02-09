@@ -143,6 +143,11 @@ int main(int ac,char** av) {
 	xWatcher wutw(&mwin);
 	keyWindow keyw(&mwin);
 
+	int id = QFontDatabase::addApplicationFont(":/DejaVuSansMono.ttf");
+	if (id > -1) {
+		dbgw.setFont(QFont(QFontDatabase::applicationFontFamilies(id).first(), 10));
+	}
+
 	app.d_style();
 
 	mwin.onPrfChange();
