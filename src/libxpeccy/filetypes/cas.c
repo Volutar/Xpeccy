@@ -1,4 +1,5 @@
 #include "filetypes.h"
+#include "../../LOG/LOG.h"
 
 // msx tape signal timings
 // @ baud 1200 bps
