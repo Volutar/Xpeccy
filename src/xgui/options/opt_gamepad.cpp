@@ -141,6 +141,8 @@ xGamepadWidget::xGamepadWidget(xGamepad* gp, QWidget* p):QWidget(p) {
 	tvMapView->verticalHeader()->setDefaultSectionSize(17);
 	tvMapView->horizontalHeader()->setStretchLastSection(true);
 	tvMapView->setGridStyle(Qt::DotLine);
+	tvMapView->setColumnWidth(0,60);
+	tvMapView->setColumnWidth(1,105);
 	tvMapView->setSelectionMode(QAbstractItemView::SingleSelection);
 	tvMapView->setSelectionBehavior(QAbstractItemView::SelectRows);
 	tbAddMap = new QToolButton;
