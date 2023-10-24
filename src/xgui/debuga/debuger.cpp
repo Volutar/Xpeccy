@@ -280,6 +280,8 @@ DebugWin::DebugWin(QWidget* par):QMainWindow(par) {
 	lay->addWidget(wid_cpu);
 	lay->addWidget(wid_dasm);
 	lay->setStretchFactor(wid_dasm, 10);
+	lay->setSpacing(2);
+	lay->setMargin(2);
 	cw->setLayout(lay);
 	setCentralWidget(cw);
 
@@ -342,6 +344,7 @@ DebugWin::DebugWin(QWidget* par):QMainWindow(par) {
 	rtbar->setAllowedAreas(Qt::LeftToolBarArea | Qt::RightToolBarArea);
 	addToolBar(Qt::RightToolBarArea, rtbar);
 	rtbar->setContextMenuPolicy(Qt::PreventContextMenu);
+	setContextMenuPolicy(Qt::PreventContextMenu);
 
 	dumpwin = new QDialog(this);
 	labswin = new xLabeList(this);

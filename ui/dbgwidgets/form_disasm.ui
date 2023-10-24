@@ -28,6 +28,11 @@
    </property>
    <item>
     <widget class="QLabel" name="labHeadDisasm">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Disasm</string>
      </property>
@@ -217,7 +222,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_12">
      <property name="spacing">
-      <number>1</number>
+      <number>0</number>
      </property>
      <item>
       <widget class="xDisasmTable" name="dasmTable">
@@ -251,6 +256,9 @@
        <property name="selectionMode">
         <enum>QAbstractItemView::SingleSelection</enum>
        </property>
+       <property name="textElideMode">
+        <enum>Qt::ElideNone</enum>
+       </property>
        <property name="showGrid">
         <bool>false</bool>
        </property>
@@ -267,10 +275,10 @@
         <bool>false</bool>
        </attribute>
        <attribute name="verticalHeaderMinimumSectionSize">
-        <number>17</number>
+        <number>16</number>
        </attribute>
        <attribute name="verticalHeaderDefaultSectionSize">
-        <number>20</number>
+        <number>17</number>
        </attribute>
       </widget>
      </item>

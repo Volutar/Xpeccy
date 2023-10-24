@@ -20,7 +20,8 @@ xHexSpin::xHexSpin(QWidget* p):QLineEdit(p) {
 	setMinimumWidth(60);
 	setAutoFillBackground(true);
 	setUpdatesEnabled(true);
-	setMinimumHeight(25);
+	setMinimumHeight(20);
+
 	//vldtr.setRegExp(QRegExp(""));
 	setRegExp(vldtr, "");
 	min = 0x0000;
@@ -105,7 +106,7 @@ int xHexSpin::getMax() {
 extern QString getStyleString(QString, QString, int = 0, int = 100);
 
 void xHexSpin::updatePal() {
-#if 1
+#if 0
 	QString str;
 	if (changed) {
 		str = getStyleString("dbg.changed.bg", "dbg.changed.txt");

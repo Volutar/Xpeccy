@@ -14,8 +14,25 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>2</number>
+   </property>
+   <property name="topMargin">
+    <number>1</number>
+   </property>
+   <property name="rightMargin">
+    <number>2</number>
+   </property>
+   <property name="bottomMargin">
+    <number>5</number>
+   </property>
    <item>
     <widget class="QLabel" name="labHeadMem">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>MEMMAP</string>
      </property>
@@ -83,6 +100,11 @@
    </item>
    <item>
     <widget class="QLabel" name="labHeadStack">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>STACK</string>
      </property>
@@ -235,6 +257,11 @@
    </item>
    <item>
     <widget class="QLabel" name="labHeadSignal">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>SIGNALS</string>
      </property>
@@ -297,6 +324,11 @@
    </item>
    <item>
     <widget class="QLabel" name="labHeadRay">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>RAY</string>
      </property>
