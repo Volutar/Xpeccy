@@ -210,8 +210,8 @@ sndPair ay_mix_stereo(int volA, int volB, int volC, int id) {
 			rig = lef;
 			break;
 	}
-	res.left = lef + (cen >> 1);
-	res.right = rig + (cen >> 1);
+	res.left = (lef * 0.8) + (cen >> 1) + (rig * 0.3);
+	res.right = (rig * 0.8)+ (cen >> 1) + (lef * 0.3);
 	return res;
 }
 
