@@ -45,7 +45,7 @@ extern sndPair ay_mix_stereo(int, int, int, int);
 
 int ym_chan_vol(aymChip* ay, aymChan* ch) {
 	int vol;
-	int lev = (ch->per < 0x60) ? 1 : ch->lev;
+	int lev = ch->een ? ch->lev : (ch->per < 0x60 ? 1 : ch->lev);
 	if ((ch->tdis || lev) && (ch->ndis || ay->chanN.lev)) {
 		vol = ch->een ? ay->chanE.vol : (ch->ndis && !ch->tdis && !lev) ? 0 : ch->vol;
 	} else {
