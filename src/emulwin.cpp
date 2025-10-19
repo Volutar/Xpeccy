@@ -662,11 +662,15 @@ void MainWin::d_frame() {
 #if defined(USEOPENGL) && !BLOCKGL
 	Computer* comp = conf.prof.cur->zx;
 	queue.append(texids[curtex]);
-	if (queue.size() > 3)
+	while (queue.size() > 2)
 		queue.takeFirst();
+	if (queue.size() > 1)
+		repaint();
+//		queue.takeFirst();
 	glBindTexture(GL_TEXTURE_2D, texids[curtex]);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bytesPerLine / 4, comp->vid->vsze.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, comp->flgDBG ? scrimg : bufimg);
 	curtex++;
+	curtex = curtex & 3;
 #endif
 }
 
