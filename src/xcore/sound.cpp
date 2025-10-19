@@ -13,11 +13,13 @@
 
 #include <SDL.h>
 
+//#define SBUFSIZE 0x4000
+//#define SBUFSIZE 0x1000
+#define SBUFSIZE 0x800
 // new
-static unsigned char sbuf[0x4000];
+static unsigned char sbuf[SBUFSIZE];
 static int posf = 0x1000;			// fill pos
 static int posp = 0x0004;			// play pos
-
 static int smpCount = 0;
 OutSys *sndOutput = NULL;
 static int sndChunks = 882;
@@ -27,6 +29,8 @@ int nsPerSample = 22675;
 // static int disCount = 0;
 static sndPair tmpLev = {0, 0};
 static sndPair sndLev;
+
+static bool sfirst=true;
 
 OutSys* findOutSys(const char*);
 
@@ -43,6 +47,8 @@ static SDL_AudioDeviceID sdldevid;
 // output
 
 #define USEKIH 0
+
+#define sndgran 200
 
 // return 1 when buffer is full
 // NOTE: need sync|flush devices if debug
@@ -91,14 +97,21 @@ int sndSync(Computer* comp) {
 				}
 				if (conf.snd.need > 0)
 					conf.snd.need--;
-
-				sbuf[posf & 0x3fff] = sndLev.left & 0xff;
+ /*
+				int a=sndLev.left;
+				static int b=1651;
+				if (a!=b && (a!=1651 && a!=9715)) {
+					b=a;
+					printf("Sync lev %i\n",b);
+				}
+*/
+				sbuf[posf & (SBUFSIZE-1)] = sndLev.left & 0xff;
 				posf++;
-				sbuf[posf & 0x3fff] = (sndLev.left >> 8) & 0xff;
+				sbuf[posf & (SBUFSIZE-1)] = (sndLev.left >> 8) & 0xff;
 				posf++;
-				sbuf[posf & 0x3fff] = sndLev.right & 0xff;
+				sbuf[posf & (SBUFSIZE-1)] = sndLev.right & 0xff;
 				posf++;
-				sbuf[posf & 0x3fff] = (sndLev.right >> 8) & 0xff;
+				sbuf[posf & (SBUFSIZE-1)] = (sndLev.right >> 8) & 0xff;
 				posf++;
 			}
 			smpCount++;
@@ -168,7 +181,7 @@ Uint32 sdl_timer_callback(Uint32 iv, void* ptr) {
 #else
 	sleepy = 0;
 	if (!conf.emu.pause) {
-		conf.snd.need += conf.snd.rate / 50;
+		conf.snd.need += conf.snd.rate / sndgran;//50;
 	}
 #endif
 	return iv;
@@ -187,7 +200,7 @@ int null_open() {
 		printf("Can't create SDL_Timer, syncronisation unavailable\n");
 		throw(0);
 	}
-	sndChunks = conf.snd.rate / 50 * DISCRATE;
+	sndChunks = conf.snd.rate  / (sndgran*DISCRATE);//50 * DISCRATE;
 	return 1;
 }
 
@@ -201,29 +214,47 @@ void null_close() {
 #include <QDebug>
 
 void sdlPlayAudio(void*, Uint8* stream, int len) {
-//	printf("len = %i\n",len);
 	if (!conf.emu.fast && !conf.emu.pause) {
 		conf.snd.need += len/4;
 	} else {
 		conf.snd.need = 0;
 	}
+//	printf("len = %i\n",len);
+	int run=0;
 	int dist = posf - posp;
-	while (dist < 0) dist += 0x4000;
-	while (dist > 0x3fff) dist -= 0x4000;
+	while (dist < 0) dist += SBUFSIZE;
+	while (dist > (SBUFSIZE-1)) dist -= SBUFSIZE;
+	posf = posp + dist; //adjust
 	if ((dist < len) || conf.emu.fast || conf.emu.pause) {				// overfill : fill with last sample of previous buf
 //		printf("overfill : %i %i\n", posf, posp);
 		while(len > 0) {
-			*(stream++) = sbuf[(posp - 4) & 0x3fff];
-			*(stream++) = sbuf[(posp - 3) & 0x3fff];
-			*(stream++) = sbuf[(posp - 2) & 0x3fff];
-			*(stream++) = sbuf[(posp - 1) & 0x3fff];
+			*(stream++) = sbuf[(posp - 4) & (SBUFSIZE-1)];
+			*(stream++) = sbuf[(posp - 3) & (SBUFSIZE-1)];
+			*(stream++) = sbuf[(posp - 2) & (SBUFSIZE-1)];
+			*(stream++) = sbuf[(posp - 1) & (SBUFSIZE-1)];
 			len -= 4;
 		}
 	} else {						// normal : play buffer
 		while(len > 0) {
-			*(stream++) = sbuf[posp & 0x3fff];
-			posp++;
-			len--;
+ /*
+			int a = sbuf[posp & (SBUFSIZE-1)] + 256* sbuf[(posp+1) & (SBUFSIZE-1)];
+
+			static int b=1651;
+			if (a!=b && (a!=1651 && a!=9715)) {
+				b=a;
+				if (run==0) {
+					printf("Beep lev %i\n",b);
+					printf("%i - %i = %i\n",posf, posp, posf - posp);
+				}
+				run++;
+			}
+ */
+			*(stream++) = sbuf[posp & (SBUFSIZE-1)];
+			*(stream++) = sbuf[(posp+1) & (SBUFSIZE-1)];
+			*(stream++) = sbuf[(posp+2) & (SBUFSIZE-1)];
+			*(stream++) = sbuf[(posp+3) & (SBUFSIZE-1)];
+			posp+=4;
+			len-=4;
 		}
 	}
 #if USEMUTEX
@@ -233,6 +264,12 @@ void sdlPlayAudio(void*, Uint8* stream, int len) {
 #else
 	sleepy = 0;
 #endif
+/*	if (run>0 && sfirst) {
+		printf("%i - %i = %i. len=%i\n",posf, posp, posf - posp,len);
+		sfirst = false;
+		posf = posp+len;
+		printf("%i - %i = %i\n",posf, posp, posf - posp);
+	}*/
 }
 
 int sdlopen() {
@@ -242,7 +279,7 @@ int sdlopen() {
 	asp.freq = conf.snd.rate;
 	asp.format = AUDIO_S16LSB;
 	asp.channels = conf.snd.chans;
-	asp.samples = conf.snd.rate / 50;
+	asp.samples = conf.snd.rate / sndgran; //50;
 	asp.callback = &sdlPlayAudio;
 	asp.userdata = NULL;
 	conf.snd.need = 0;
@@ -267,8 +304,9 @@ int sdlopen() {
 	}
 	posp = 0x0004;
 	posf = posp;
+	sfirst=true;
 	//posf = 0x1000;
-	memset(sbuf, 0x00, 0x4000);
+	memset(sbuf, 0x00, SBUFSIZE);
 	return res;
 }
 

@@ -660,11 +660,15 @@ void MainWin::d_frame() {
 #if defined(USEOPENGL) && !BLOCKGL
 	Computer* comp = conf.prof.cur->zx;
 	queue.append(texids[curtex]);
-	if (queue.size() > 3)
+	while (queue.size() > 2)
 		queue.takeFirst();
+	if (queue.size() > 1)
+		repaint();
+//		queue.takeFirst();
 	glBindTexture(GL_TEXTURE_2D, texids[curtex]);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bytesPerLine / 4, comp->vid->vsze.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, comp->debug ? scrimg : bufimg);
 	curtex++;
+	curtex = curtex & 3;
 #endif
 }
 
@@ -683,6 +687,11 @@ void MainWin::drawText(QPainter* pnt, int x, int y, const char* buf) {
 // if paintEvent exists, paintGL do not called
 
 void MainWin::paintEvent(QPaintEvent*) {
+#if defined(USEOPENGL)
+	if (!queue.isEmpty())
+		curtxid = queue.takeFirst();
+	else return;
+#endif
 	QPainter pnt(this);
 #if defined(USEOPENGL)
 #if !BLOCKGL
@@ -700,8 +709,6 @@ void MainWin::paintEvent(QPaintEvent*) {
 	glEnable(GL_TEXTURE_2D);
 	glLoadIdentity();
 	// draw texture
-	if (!queue.isEmpty())
-		curtxid = queue.takeFirst();
 	glBindTexture(GL_TEXTURE_2D, curtxid);
 	glBegin(GL_TRIANGLE_STRIP);
 	glTexCoord2f(1.0, 0.0); glVertex2f(1.0, 0.0);	// RT
@@ -714,7 +721,7 @@ void MainWin::paintEvent(QPaintEvent*) {
 	glDisable(GL_TEXTURE_2D);
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-	glFlush();
+//	glFlush();
 //	pnt.endNativePainting();
 //	QPainter pnt(this);
 	drawIcons(pnt);

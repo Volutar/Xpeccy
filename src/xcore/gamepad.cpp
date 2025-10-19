@@ -547,7 +547,7 @@ int xGamepad::deadZone() {return dead;}
 xGamepadController::xGamepadController(QObject* p):QObject(p) {
 	gpada = new xGamepad;
 	gpadb = new xGamepad;
-	startTimer(20);
+	startTimer(5);
 }
 
 void xGamepadController::timerEvent(QTimerEvent* e) {
