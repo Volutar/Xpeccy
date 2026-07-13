@@ -36,12 +36,9 @@ void z80_reset(CPU* cpu) {
 	cpu->flgIFF1 = 0;
 	cpu->flgIFF2 = 0;
 	cpu->regIM = 0;
-	cpu->regBC = cpu->regDE = cpu->regHL = 0xffff;
-	cpu->regA = 0xff;
+	cpu->regAF = cpu->regBC = cpu->regDE = cpu->regHL = 0xffff;
 	z80_set_flag(cpu, 0xff);
-	cpu->regBCa = cpu->regDEa = cpu->regHLa = 0xffff;
-	cpu->regAa = 0xff;
-	cpu->regFa = 0xff;
+	cpu->regAFa = cpu->regBCa = cpu->regDEa = cpu->regHLa = 0xffff;
 	cpu->regIX = cpu->regIY = 0xffff;
 	cpu->regSP = 0xffff;
 	cpu->regI = cpu->regR = cpu->regR7 = 0;
@@ -324,11 +321,11 @@ xAsmScan z80_asm(int adr, const char* cbuf, char* buf) {
 
 void z80_set_pc(CPU* cpu, int v) {cpu->regPC = v;}
 void z80_set_sp(CPU* cpu, int v) {cpu->regSP = v;}
-void z80_set_a(CPU* cpu, int v) {cpu->regA = v;}
+void z80_set_af(CPU* cpu, int v) {cpu->regAF = v; z80_set_flag(cpu, v & 0xff);}
 void z80_set_bc(CPU* cpu, int v) {cpu->regBC = v;}
 void z80_set_de(CPU* cpu, int v) {cpu->regDE = v;}
 void z80_set_hl(CPU* cpu, int v) {cpu->regHL = v;}
-void z80_set_aa(CPU* cpu, int v) {cpu->regAa = v;}
+void z80_set_afa(CPU* cpu, int v) {cpu->regAFa = v;}
 void z80_set_abc(CPU* cpu, int v) {cpu->regBCa = v;}
 void z80_set_ade(CPU* cpu, int v) {cpu->regDEa = v;}
 void z80_set_ahl(CPU* cpu, int v) {cpu->regHLa = v;}
@@ -344,11 +341,11 @@ void z80_set_fa(CPU* cpu, int v) {cpu->regFa = v;}
 
 int z80_get_pc(CPU* cpu) {return cpu->regPC;}
 int z80_get_sp(CPU* cpu) {return cpu->regSP;}
-int z80_get_a(CPU* cpu) {return cpu->regA;}
+int z80_get_af(CPU* cpu) {cpu->regF = z80_get_flag(cpu); return cpu->regAF;}
 int z80_get_bc(CPU* cpu) {return cpu->regBC;}
 int z80_get_de(CPU* cpu) {return cpu->regDE;}
 int z80_get_hl(CPU* cpu) {return cpu->regHL;}
-int z80_get_aa(CPU* cpu) {return cpu->regAa;}
+int z80_get_afa(CPU* cpu) {return cpu->regAFa;}
 int z80_get_abc(CPU* cpu) {return cpu->regBCa;}
 int z80_get_ade(CPU* cpu) {return cpu->regDEa;}
 int z80_get_ahl(CPU* cpu) {return cpu->regHLa;}
@@ -366,13 +363,13 @@ int z80_get_fa(CPU* cpu) {return cpu->regFa;}
 
 xRegDsc z80RegTab[] = {
 	{Z80_REG_PC, "PC", REG_WORD, REG_RDMP | REG_PC, z80_get_pc, z80_set_pc},
-	{Z80_REG_A, "A", REG_BYTE, 0, z80_get_a, z80_set_a},
+	{Z80_REG_AF, "AF", REG_WORD, REG_RDMP, z80_get_af, z80_set_af},
 	{Z80_REG_BC, "BC", REG_WORD, REG_RDMP, z80_get_bc, z80_set_bc},
 	{Z80_REG_DE, "DE", REG_WORD, REG_RDMP, z80_get_de, z80_set_de},
 	{Z80_REG_HL, "HL", REG_WORD, REG_RDMP, z80_get_hl, z80_set_hl},
 
 	{Z80_REG_SP, "SP", REG_WORD, REG_RDMP | REG_SP, z80_get_sp, z80_set_sp},
-	{Z80_REG_AA, "A'", REG_BYTE, 0, z80_get_aa, z80_set_aa},
+	{Z80_REG_AFA, "AF'", REG_WORD, REG_RDMP, z80_get_afa, z80_set_afa},
 	{Z80_REG_BCA, "BC'", REG_WORD, REG_RDMP, z80_get_abc, z80_set_abc},
 	{Z80_REG_DEA, "DE'", REG_WORD, REG_RDMP, z80_get_ade, z80_set_ade},
 	{Z80_REG_HLA, "HL'", REG_WORD, REG_RDMP, z80_get_ahl, z80_set_ahl},

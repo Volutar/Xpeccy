@@ -2,8 +2,9 @@
 
 #include "../cpu.h"
 
-#define regA regs[0].l
-#define regAa regs[0].h
+#define regAF regs[0].w
+#define regA regs[0].h
+#define regF regs[0].l
 #define regBC regs[1].w
 #define regBCa regs[1].ih
 #define regB regs[1].h
@@ -34,7 +35,9 @@
 #define regI regs[9].l
 #define regR regs[9].h
 #define regR7 regs[9].ih
-#define regFa regs[10].i
+#define regAFa regs[10].w
+#define regAa regs[10].h
+#define regFa regs[10].l
 #define regIM regs[11].l
 
 #define flgC	flags[0]

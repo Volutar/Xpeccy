@@ -277,6 +277,10 @@ xResult xEval(const char* ptr, int f) {
 
 // wutcha
 
+int z80RegOrder[] = {
+ 0,5, 1,6, 2,7, 3,8, 4,9, 10,11, 12,13, 15, 16,14 ,17, 18,19, 20,21, 22,23, 24,25, 26,27, 28,29, 30,31
+};
+
 xWatcher::xWatcher(QWidget* p):QDialog(p) {
 	int i;
 	ui.setupUi(this);
@@ -309,7 +313,10 @@ xWatcher::xWatcher(QWidget* p):QDialog(p) {
 	connect(nui.tbLabel, SIGNAL(released()), labswin, SLOT(show()));
 	connect(labswin, SIGNAL(labSelected(QString)), this, SLOT(insertLabel(QString)));
 
-	for(i = 0; i < 14; i++) ui.wchMemTab->setColumnWidth(i, 30);
+	for(i = 0; i < 19; i++) {
+		ui.wchMemTab->setColumnWidth(i, 22);
+		ui.wchMemTab->setTextElideMode(Qt::ElideNone);
+	}
 
 	connect(ui.actAddWatcher, SIGNAL(triggered(bool)), this, SLOT(newWatcher()));
 	connect(ui.actDelWatcher, SIGNAL(triggered(bool)), this, SLOT(delWatcher()));
@@ -322,21 +329,27 @@ void xWatcher::show() {
 
 	xRegBunch regs = cpuGetRegs(conf.prof.cur->zx->cpu);
 	int work = 1;
-	for(int i = 0; i < 32; i++) {
+	int cputype = conf.prof.cur->zx->cpu->type;
+	int i;
+	for(int j = 0; j < 32; j++) {
+		if (cputype != CPU_Z80) i = j;
+			else i = z80RegOrder[j];
 		if (work) {
 			if (regs.regs[i].id == REG_EOT) {
 				work = 0;
-				regLabels[i]->setVisible(false);
-				regValues[i]->setVisible(false);
+				regLabels[j]->setVisible(false);
+				regValues[j]->setVisible(false);
 			} else {
-				regLabels[i]->setVisible(true);
-				regValues[i]->setVisible(true);
-				regLabels[i]->setText(regs.regs[i].name);
-				regValues[i]->setValue(regs.regs[i].value);
+				regLabels[j]->setVisible(true);
+				regValues[j]->setVisible(true);
+				regLabels[j]->setText(regs.regs[i].name);
+				if (regs.regs[i].size==REG_BYTE) regValues[j]->setMax(255);
+				else if (regs.regs[i].size==REG_BIT || regs.regs[i].size==REG_2) regValues[j]->setMax(9);
+				regValues[j]->setValue(regs.regs[i].value);
 			}
 		} else {
-			regLabels[i]->setVisible(false);
-			regValues[i]->setVisible(false);
+			regLabels[j]->setVisible(false);
+			regValues[j]->setVisible(false);
 		}
 	}
 
@@ -364,11 +377,14 @@ void xWatcher::fillFields(Computer* comp) {
 	model->comp = comp;
 
 	xRegBunch regs = cpuGetRegs(comp->cpu);
-	int i = 0;
-	while ((i < 32) && (regs.regs[i].id != REG_EOT)) {
-		// regLabels[i]->setText(regs.regs[i].name);
-		regValues[i]->setValue(regs.regs[i].value);
-		i++;
+	int cputype = conf.prof.cur->zx->cpu->type;
+	int i = 0, j = 0;
+	while ((j < 32) && (regs.regs[j].id != REG_EOT)) {
+		if (cputype != CPU_Z80) i = j;
+		else i = z80RegOrder[j];
+//		regLabels[j]->setText(regs.regs[i].name);
+		regValues[j]->setValue(regs.regs[i].value);
+		j++;
 	}
 	ui.wchBank0->setText(getBankName(comp->mem->map[0x00]));
 	ui.wchBank1->setText(getBankName(comp->mem->map[0x40]));
@@ -398,11 +414,12 @@ void xWatcher::confirmNew() {
 	xResult res = xEval(str.toLocal8Bit().data());		// check syntax
 	if (res.err) return;
 	newWch->close();
+	ui.wchMemTab->setAlternatingRowColors(true);
 	if (curwch < 0) {
 		model->addItem(type, str);
 		for (int i = 0; i < model->getItemCount() * 2; i += 2) {
-			ui.wchMemTab->setSpan(i, 0, 1, 11);
-			ui.wchMemTab->setSpan(i, 11, 1, 2);
+			ui.wchMemTab->setSpan(i, 0, 1, 2);
+			ui.wchMemTab->setSpan(i, 2, 1, 16);
 		}
 	} else {
 		model->setItem(curwch, type, str);
@@ -451,7 +468,7 @@ int xWatchModel::rowCount(const QModelIndex&) const {
 }
 
 int xWatchModel::columnCount(const QModelIndex&) const {
-	return 13;
+	return 18;
 }
 
 void xWatchModel::insertRow(int row, const QModelIndex& idx) {
@@ -517,14 +534,14 @@ QVariant xWatchModel::data(const QModelIndex& idx, int role) const {
 				} else {
 					res = gethexbyte(memRd(comp->mem, (xr.value + col) & comp->mem->busmask));
 				}
-			} else if (col == 0) {
+			} else if (col == 2) {
 				switch(itm.type) {
 					case WUT_CPU: res = "CPU: "+itm.exp; break;
 					case WUT_RAM: res = "RAM: "+itm.exp; break;
 					case WUT_ROM: res = "ROM: "+itm.exp; break;
 					default: res = "Error"; break;
 				}
-			} else if (col == 11) {
+			} else if (col == 0) {
 				if (xr.err) {
 					res = "????";
 				} else {
