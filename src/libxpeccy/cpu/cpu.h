@@ -147,15 +147,16 @@ typedef struct {
 enum {
 	CPUG_NONE = 0,
 	CPUG_X80,		// i8080-like (8080, z80, lr35902)
-	CPUG_MOS,		// 6502
+	CPUG_X86		// x86
+/*	CPUG_MOS,		// 6502
 	CPUG_X86,		// x86
 	CPUG_PDP		// vm1,2
-};
+*/};
 
 enum {
 	CPU_NONE = 0,		// dummy
 	CPU_Z80,		// ZX, MSX, *PC88xx
-	CPU_I8080,
+/*	CPU_I8080,
 	CPU_I8086,		// *PC98xx
 	CPU_I80186,
 	CPU_V30,
@@ -164,7 +165,7 @@ enum {
 	CPU_6502,		// NES, Commodore
 	CPU_VM1,		// BK
 	CPU_VM2
-};
+*/};
 
 #define flgTMP flags[63]
 #define flgHALT	flags[62]		// cpu halted, undo on interrput

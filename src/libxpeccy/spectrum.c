@@ -395,12 +395,12 @@ Computer* compCreate() {
 	comp->gbsnd = gbsCreate();
 	comp->saa = saaCreate();
 	comp->beep = bcCreate();
-	comp->nesapu = apuCreate(nes_apu_ext_rd, comp_irq, comp);
+//	comp->nesapu = apuCreate(nes_apu_ext_rd, comp_irq, comp);
 // c64
-	comp->cia1 = cia_create(IRQ_CIA1, comp_irq, comp);
-	comp->cia2 = cia_create(IRQ_CIA2, comp_irq, comp);
+//	comp->cia1 = cia_create(IRQ_CIA1, comp_irq, comp);
+//	comp->cia2 = cia_create(IRQ_CIA2, comp_irq, comp);
 // ibm
-	comp->dma1 = dma_create(comp, 0);
+/*	comp->dma1 = dma_create(comp, 0);
 	comp->dma2 = dma_create(comp, 1);
 	comp->mpic = pic_create(1, comp_irq, comp);
 	comp->spic = pic_create(0, comp_irq, comp);
@@ -408,6 +408,7 @@ Computer* compCreate() {
 	comp->uart = uart_create(UART_DEFAULT, IRQ_COM1, comp_irq, comp);
 // pc9801;
 	comp->rtc = upd4990_create(comp_irq, comp);
+*/
 // baseconf
 //	memcpy(comp->evo.blVer,blnm,16);
 //	memcpy(comp->evo.bcVer,bcnm,16);
@@ -444,16 +445,16 @@ void compDestroy(Computer* comp) {
 	sdrvDestroy(comp->sdrv);
 	saaDestroy(comp->saa);
 	bcDestroy(comp->beep);
-	apuDestroy(comp->nesapu);
+//	apuDestroy(comp->nesapu);
 	sltDestroy(comp->slot);
 	ppi_destroy(comp->ppi);
 	ppi_destroy(comp->ppib);
 	ps2c_destroy(comp->ps2c);
-	dma_destroy(comp->dma1);
-	dma_destroy(comp->dma2);
-	pit_destroy(comp->pit);
-	cia_destroy(comp->cia1);
-	cia_destroy(comp->cia2);
+//	dma_destroy(comp->dma1);
+//	dma_destroy(comp->dma2);
+//	pit_destroy(comp->pit);
+//	cia_destroy(comp->cia1);
+//	cia_destroy(comp->cia2);
 	upd4990_destroy(comp->rtc);
 	free(comp);
 }
@@ -486,8 +487,8 @@ void compReset(Computer* comp,int res) {
 	ideReset(comp->ide);
 	saaReset(comp->saa);
 	sdcReset(comp->sdc);
-	dma_reset(comp->dma1);
-	dma_reset(comp->dma2);
+//	dma_reset(comp->dma1);
+//	dma_reset(comp->dma2);
 	if (comp->hw->reset)
 		comp->hw->reset(comp);
 	comp->hw->mapMem(comp);

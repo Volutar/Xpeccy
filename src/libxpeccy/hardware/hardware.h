@@ -24,7 +24,7 @@ enum {
 	HW_PROFI,	// Profi
 	HW_PHOENIX,	// ZXM Phoenix
 	HW_ALF,		// ALF (ZX48K-like console)
-	HW_MSX,		// MSX 1
+/*	HW_MSX,		// MSX 1
 	HW_MSX2,	// MSX 2
 	HW_GBC,		// Game boy color (gameboy capatible)
 	HW_NES,		// Nintendo Entertaiment System (Dendy)
@@ -34,6 +34,8 @@ enum {
 	HW_SPCLST,	// PC Specialist
 	HW_IBM_PC,	// IBM PC AT/XT
 	HW_PC9801	// NEC PC 9801
+*/
+	HW_IBM_PC,	// IBM PC AT/XT
 };
 
 // hw group

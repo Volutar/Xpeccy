@@ -89,22 +89,22 @@ class DebugWin : public QMainWindow {
 		xCmosDumpWidget* wid_cmos_dump;
 		xVMemDumpWidget* wid_vmem_dump;
 		xZXScrWidget* wid_zxscr;
-		xDmaWidget* wid_dma;
+/*		xDmaWidget* wid_dma;
 		xPitWidget* wid_pit;
 		xPicWidget* wid_pic;
 		xVgaWidget* wid_vga;
-		xPS2Widget* wid_ps2;
+*/		xPS2Widget* wid_ps2;
 		xAYWidget* wid_ay;
 		xTapeWidget* wid_tape;
 		xFDDWidget* wid_fdd;
 		xBreakWidget* wid_brk;
-		xGameboyWidget* wid_gb;
+/*		xGameboyWidget* wid_gb;
 		xGBVideoWidget* wid_gbv;
 		xPPUWidget* wid_ppu;
 		// apu (future)
 		xCiaWidget* wid_cia;
 		xVicWidget* wid_vic;
-		xMMapWidget* wid_mmap;
+*/		xMMapWidget* wid_mmap;
 		QList<void*> dockWidgets;
 
 		QList<xLabel*> dbgRegLabs;

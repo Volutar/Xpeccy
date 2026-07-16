@@ -34,7 +34,7 @@ class xAYWidget : public xDockWidget {
 };
 
 // cia
-
+/*
 #include "ui_form_cia.h"
 
 class xCiaWidget : public xDockWidget {
@@ -46,7 +46,7 @@ class xCiaWidget : public xDockWidget {
 	private:
 		Ui::CIAWidget ui;
 };
-
+*/
 
 // cmos
 #include "dbg_cmos_dump.h"
@@ -62,7 +62,7 @@ class xDmaTableModel : public xTableModel {
 		QVariant data(const QModelIndex&, int) const;
 		QVariant headerData(int, Qt::Orientation, int = Qt::DisplayRole) const;
 };
-
+/*
 #include "ui_form_dma.h"
 
 class xDmaWidget : public xDockWidget {
@@ -74,7 +74,7 @@ class xDmaWidget : public xDockWidget {
 	private:
 		Ui::DMAWidget ui;
 };
-
+*/
 // fdc
 
 #include "ui_form_fdd.h"
@@ -89,11 +89,12 @@ class xFDDWidget : public xDockWidget {
 		Ui::FDDWidget ui;
 };
 
+
 // gameboy
 
 #include "ui_form_gameboy.h"
 #include "ui_form_vga.h"
-
+/*
 class xGameboyWidget : public xDockWidget {
 	Q_OBJECT
 	public:
@@ -122,7 +123,7 @@ class xGBVideoWidget : public xDockWidget {
 	private:
 		Ui::TableWidget ui;
 };
-
+*/
 // memmap
 
 #include "ui_form_mem.h"
@@ -147,7 +148,7 @@ class xMMapWidget : public xDockWidget {
 };
 
 // nesapu
-
+/*
 // nesppu
 
 #include "ui_form_nesppu.h"
@@ -209,7 +210,7 @@ class xPitWidget : public xDockWidget {
 	private:
 		Ui::PITWidget ui;
 };
-
+*/
 // tape
 
 #include "ui_form_tape.h"
@@ -225,7 +226,7 @@ class xTapeWidget : public xDockWidget {
 };
 
 // vga
-
+/*
 class xVgaRegModel : public xTableModel {
 	public:
 		xVgaRegModel(QObject* = nullptr);
@@ -271,7 +272,7 @@ class xVicWidget : public xDockWidget {
 	private:
 		Ui::VICWidget ui;
 };
-
+*/
 // zxscr
 
 #include "ui_form_zxscreen.h"

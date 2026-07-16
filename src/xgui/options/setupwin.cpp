@@ -301,9 +301,11 @@ SetupWin::SetupWin(QWidget* par):QDialog(par) {
 	ui.diskTypeBox->addItem("None",DIF_NONE);
 	ui.diskTypeBox->addItem("Beta disk (VG93)",DIF_BDI);
 	ui.diskTypeBox->addItem("+3 DOS (uPD765)",DIF_P3DOS);
-	ui.diskTypeBox->addItem("PC FDC (i8272)", DIF_PC);
+/*
+	ui.diskTypeBox->addItem("PC FDC (i8275)", DIF_PC);
 	ui.diskTypeBox->addItem("PC98xx (uPD765)", DIF_PC98);
 	ui.diskTypeBox->addItem("SMK512 (VP1-128)",DIF_SMK512);
+*/
 	ui.disklist->addAction(ui.actCopyToTape);
 	ui.disklist->addAction(ui.actSaveHobeta);
 	ui.disklist->addAction(ui.actSaveRaw);
@@ -1121,6 +1123,7 @@ static xRomPreset presets[] = {
 	{HW_TSLAB, "gs105a.rom", "", {{"ts-bios.rom",0,0,0},{"",0,0,0}}},
 	{HW_PROFI, "gs105a.rom", "", {{"PROFI-P.ROM",0,0,0},{"",0,0,0}}},
 	{HW_PHOENIX, "gs105a.rom", "", {{"zxm_bios_5_03.rom",0,0,0},{"",0,0,0}}},
+/*
 	{HW_MSX, "", "", {{"MSX.ROM",0,0,0},{"",0,0,0}}},
 	{HW_MSX2, "", "", {{"msx2.rom",0,0,0},{"",0,0,0}}},
 	{HW_GBC, "", "", {{"GameBoyColorBIOS.rom",0,0,0},{"",0,0,0}}},
@@ -1129,6 +1132,7 @@ static xRomPreset presets[] = {
 	{HW_BK0010, "", "", {{"MONIT10.ROM",0,0,0},{"BASIC10.ROM",0,0,8},{"",0,0,0}}},
 	{HW_BK0011M, "", "", {{"BAS11M_0.ROM",0,0,0},{"BAS11M_1.ROM",0,0,16},{"B11M_EXT.ROM",0,0,24},{"B11M_BOS.ROM",0,0,32},{"",0,0,0}}},
 	{HW_SPCLST, "", "", {{"specialist_boot2_1.rom",0,0,0},{"specialist_monitor2_2.rom",0,0,2},{"",0,0,0}}},
+*/
 	{HW_NULL, "", "", {{"",0,0,0}}}
 };
 
@@ -1290,8 +1294,8 @@ static xMemName memNameTab[] = {
 	{MEM_1M, "1024 KB"},
 	{MEM_2M, "2 MB"},
 	{MEM_4M, "4 MB"},
-	{MEM_8M, "8 MB"},
-	{MEM_16M, "16 MB"},
+//	{MEM_8M, "8 MB"},
+//	{MEM_16M, "16 MB"},
 	{-1, ""}
 };
 

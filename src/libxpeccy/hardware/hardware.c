@@ -47,7 +47,7 @@ tabHwItem tabHwPtr[] = {
 	{HW_DUMMY, NULL},
 	{HW_PLUS2, &pl2_hw_core},
 	{HW_PLUS3, &pl3_hw_core},
-	{HW_DUMMY, NULL},
+/*	{HW_DUMMY, NULL},
 	{HW_MSX, &mx1_hw_core},
 	{HW_MSX2, &mx2_hw_core},
 	{HW_DUMMY, NULL},
@@ -60,7 +60,7 @@ tabHwItem tabHwPtr[] = {
 	{HW_SPCLST, &spc_hw_core},
 	{HW_IBM_PC, &ibm_hw_core},
 	{HW_PC9801, &p98_hw_core},
-	{HW_NULL, NULL},
+*/	{HW_NULL, NULL},
 };
 
 HardWare* findHardware(const char* name) {
@@ -122,7 +122,7 @@ HardWare hwTab[] = {
 		HW_PLUS3,HWG_ZX,"Spectrum +3","Spectrum +3",16,MEM_128K,1.0,NULL,16,zx_port_tab_s,
 		zx_init,pl2MapMem,pl3Out,pl3In,stdMRd,stdMWr,zx_irq,zx_ack,plusRes,zx_sync,zx_keyp,zx_keyr,zx_vol
 	},{
-		HW_NULL,HWG_NULL,"","",16,0,1.0,NULL,16,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL		// separator
+/*		HW_NULL,HWG_NULL,"","",16,0,1.0,NULL,16,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL		// separator
 	},{
 		HW_MSX,HWG_MSX,"MSX","MSX-1",16,MEM_128K,1.0,&v9938Lay,16,NULL,
 		msx_init,msxMapMem,msxOut,msxIn,stdMRd,stdMWr,NULL,NULL,msxReset,msx_sync,msx_keyp,msx_keyr,msx_vol
@@ -162,6 +162,7 @@ HardWare hwTab[] = {
 		pc98xx_init,pc98xx_mem_map,pc98xx_iowr,pc98xx_iord,pc98xx_mrd,pc98xx_mwr,pc98xx_irq,pc98xx_ack,pc98xx_reset,pc98xx_sync,pc98xx_keyp,pc98xx_keyr,pc98xx_vol
 	},{
 #endif
+*/
 		HW_NULL,HWG_NULL,NULL,NULL,16,0,1.0,NULL,16,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL		// eot
 	}
 };

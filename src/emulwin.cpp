@@ -1243,7 +1243,7 @@ void MainWin::palSelected(QAction* act) {
 }
 
 // debug stufffff
-
+/*
 void MainWin::saveVRAM() {
 	QString path = QFileDialog::getSaveFileName(this,"Save VRAM");
 	if (path.isEmpty()) return;
@@ -1287,7 +1287,7 @@ void MainWin::saveNESPPU() {
 		file.close();
 	}
 }
-
+*/
 void MainWin::debugAction() {
 	sndDebug();
 }

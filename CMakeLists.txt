@@ -132,6 +132,54 @@ file(GLOB_RECURSE SOURCES
 	./src/*.c
 )
 
+###############
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/hardware/bk0010-01\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/hardware/c64\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/hardware/gameboy\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/hardware/ibm_pc_at\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/hardware/msx\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/hardware/msx2\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/hardware/nes\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/hardware/pc9801\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/hardware/specialist\\.c$")
+
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/video/bk0010\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/video/gbcvideo\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/video/nesppu\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/video/specialist_gpu\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/video/v9938\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/video/vga\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/video/vic-ii\\.c$")
+
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/sound/nesapu\\.c$")
+
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/filetypes/bkbin\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/filetypes/bkimg\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/filetypes/c64prg\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/filetypes/cas\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/filetypes/gbc\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/filetypes/msx\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/filetypes/nes\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/filetypes/rks\\.c$")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/filetypes/t64\\.c$")
+
+list(FILTER SOURCES EXCLUDE REGEX "/xgui/debuga/dbg_nesppu\\.cpp$")
+list(FILTER SOURCES EXCLUDE REGEX "/xgui/debuga/dbg_gameboy\\.cpp$")
+list(FILTER SOURCES EXCLUDE REGEX "/xgui/debuga/dbg_vga_regs\\.cpp$")
+list(FILTER SOURCES EXCLUDE REGEX "/xgui/debuga/dbg_vic_regs\\.cpp$")
+list(FILTER SOURCES EXCLUDE REGEX "/xgui/debuga/dbg_pic\\.cpp$")
+list(FILTER SOURCES EXCLUDE REGEX "/xgui/debuga/dbg_pit\\.cpp$")
+list(FILTER SOURCES EXCLUDE REGEX "/xgui/debuga/dbg_dma\\.cpp$")
+list(FILTER SOURCES EXCLUDE REGEX "/xgui/debuga/dbg_cia\\.cpp$")
+
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/cpu/1801vm1/")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/cpu/MOS6502/")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/cpu/NEC\ V30/")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/cpu/x86/")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/cpu/i8080/")
+list(FILTER SOURCES EXCLUDE REGEX "/libxpeccy/cpu/LR35902/")
+###############
+
 # headers
 file(GLOB_RECURSE HEADERS
 	./src/*.h

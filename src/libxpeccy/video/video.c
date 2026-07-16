@@ -962,7 +962,7 @@ static xVideoMode vidModeTab[] = {
 	{VID_TSL_256, NULL, vidDrawTSLExt, NULL, vidTSline, NULL, NULL},		// vidDrawTSL256
 	{VID_TSL_TEXT, NULL, vidDrawTSLText, NULL, vidTSline, NULL, NULL},
 	{VID_PRF_MC, NULL, vidProfiScr, NULL, NULL, NULL, NULL},
-
+/*
 	{VID_GBC, NULL, gbcvDraw, NULL, gbcvLine, gbcvVBL, gbcvFram},
 	{VID_NES, NULL, ppuDraw, ppuHBL, ppuLine, ppuFram, NULL},
 
@@ -997,7 +997,7 @@ static xVideoMode vidModeTab[] = {
 
 
 	{VID_PC98XX, NULL, upd7220_dot, NULL, upd7220_line, NULL, upd7220_frame},
-
+*/
 	{VID_UNKNOWN, NULL, vidDrawBorder, NULL, NULL, NULL, NULL}
 };
 

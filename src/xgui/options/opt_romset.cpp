@@ -53,7 +53,7 @@ int xRomsetModel::columnCount(const QModelIndex& idx) const {
 
 int xRomsetModel::rowCount(const QModelIndex& idx) const {
 	if (idx.isValid()) return 0;
-	return rset->roms.size() + 4;
+	return rset->roms.size() + 2;
 }
 
 

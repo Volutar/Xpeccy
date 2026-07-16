@@ -291,26 +291,26 @@ DebugWin::DebugWin(QWidget* par):QMainWindow(par) {
 	wid_cmos_dump = new xCmosDumpWidget("","CMOS");
 	wid_vmem_dump = new xVMemDumpWidget("","VMEM");
 	wid_zxscr = new xZXScrWidget(":/images/rulers.png","Screen");
-	wid_dma = new xDmaWidget("","DMA");
+/*	wid_dma = new xDmaWidget("","DMA");
 	wid_pit = new xPitWidget("","PIT");
 	wid_pic = new xPicWidget("","PIC");
 	wid_vga = new xVgaWidget(":/images/display.png","VGA");
-	wid_ay = new xAYWidget(":/images/note.png","AY");
+*/	wid_ay = new xAYWidget(":/images/note.png","AY");
 	wid_tape = new xTapeWidget(":/images/tape.png","Tape");
 	wid_fdd = new xFDDWidget(":/images/floppy.png","FDC");
 	wid_brk = new xBreakWidget(":/images/stop.png","Breakpoints");
-	wid_gb = new xGameboyWidget(":/images/gameboy.png","GameBoy");
+/*	wid_gb = new xGameboyWidget(":/images/gameboy.png","GameBoy");
 	wid_gbv = new xGBVideoWidget(":/images/gameboy.png", "GBVideo");
 	wid_ppu = new xPPUWidget(":/images/nespad.png","NES PPU");
 	wid_cia = new xCiaWidget("","CIA");
 	wid_vic = new xVicWidget("","VIC");
-	wid_mmap = new xMMapWidget(":/images/memory.png","Memory map");
-	wid_ps2 = new xPS2Widget("","PS/2");
+*/	wid_mmap = new xMMapWidget(":/images/memory.png","Memory map");
+//	wid_ps2 = new xPS2Widget("","PS/2");
 
 	dockWidgets << wid_dump << wid_rdump << wid_disk_dump << wid_vmem_dump << wid_cmos_dump;
 	dockWidgets << wid_brk << wid_zxscr << wid_ay << wid_tape;
-	dockWidgets << wid_fdd << wid_mmap << wid_gb << wid_gbv << wid_ppu;
-	dockWidgets << wid_cia << wid_dma << wid_pic << wid_pit << wid_vga << wid_ps2;
+	dockWidgets << wid_fdd << wid_mmap;// << wid_gb << wid_gbv << wid_ppu;
+//	dockWidgets << wid_cia << wid_dma << wid_pic << wid_pit << wid_vga << wid_ps2;
 
 	addDockWidget(Qt::RightDockWidgetArea, wid_dump);
 	tabifyDockWidget(wid_dump, wid_rdump);
@@ -323,7 +323,7 @@ DebugWin::DebugWin(QWidget* par):QMainWindow(par) {
 	tabifyDockWidget(wid_brk, wid_tape);
 	tabifyDockWidget(wid_brk, wid_fdd);
 	tabifyDockWidget(wid_brk, wid_mmap);
-	tabifyDockWidget(wid_brk, wid_gb);
+/*	tabifyDockWidget(wid_brk, wid_gb);
 	tabifyDockWidget(wid_brk, wid_gbv);
 	tabifyDockWidget(wid_brk, wid_ppu);
 	tabifyDockWidget(wid_brk, wid_cia);
@@ -331,7 +331,8 @@ DebugWin::DebugWin(QWidget* par):QMainWindow(par) {
 	tabifyDockWidget(wid_brk, wid_pic);
 	tabifyDockWidget(wid_brk, wid_pit);
 	tabifyDockWidget(wid_brk, wid_vga);
-	tabifyDockWidget(wid_brk, wid_ps2);
+*/
+//	tabifyDockWidget(wid_brk, wid_ps2);
 	wid_dump->raise();
 	wid_brk->raise();
 

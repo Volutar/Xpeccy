@@ -142,10 +142,10 @@ typedef struct {
 		void disconnected();
 		void socketRead();
 
-		void saveVRAM();
+/*		void saveVRAM();
 		void saveGBVRAM();
 		void saveNESPPU();
-		void debugAction();
+*/		void debugAction();
 		void frame_timer();
 	private:
 		unsigned grabMice:1;
